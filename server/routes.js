@@ -1,7 +1,7 @@
 const Router = require('@koa/router');
 const multer = require('@koa/multer');
 const path = require('path');
-const db = require('./db');
+const { db } = require('./db');
 const fs = require('fs');
 
 const router = new Router({ prefix: '/api' });
@@ -25,7 +25,7 @@ const upload = multer({
 router.post('/miniprogram/login', async (ctx) => {
   const { code } = ctx.request.body;
   // Mock logic: return the first user
-  const user = db.prepare('SELECT * FROM users LIMIT 1').get();
+  const user = await db.prepare('SELECT * FROM users LIMIT 1').get();
   ctx.body = { success: true, data: user };
 });
 
@@ -45,9 +45,9 @@ router.post('/miniprogram/attendance', upload.single('image'), async (ctx) => {
       INSERT INTO attendance (user_id, latitude, longitude, address, image_path, type)
       VALUES (?, ?, ?, ?, ?, ?)
     `);
-    const result = stmt.run(userId, latitude, longitude, address, imagePath, type || 'check-in');
+    const result = await stmt.run(userId, latitude, longitude, address, imagePath, type || 'check-in');
 
-    ctx.body = { success: true, id: result.lastInsertRowid };
+    ctx.body = { success: true, id: result.insertId };
   } catch (err) {
     console.error(err);
     ctx.status = 500;
@@ -68,7 +68,7 @@ router.get('/miniprogram/attendance', async (ctx) => {
     WHERE user_id = ?
     ORDER BY timestamp DESC
   `);
-  const rows = stmt.all(userId);
+  const rows = await stmt.all(userId);
   ctx.body = { success: true, data: rows };
 });
 
@@ -81,12 +81,12 @@ router.get('/admin/attendance', async (ctx) => {
     JOIN users u ON a.user_id = u.id 
     ORDER BY a.timestamp DESC
   `);
-  const rows = stmt.all();
+  const rows = await stmt.all();
   ctx.body = { success: true, data: rows };
 });
 
 router.get('/admin/users', async (ctx) => {
-  const rows = db.prepare('SELECT * FROM users').all();
+  const rows = await db.prepare('SELECT * FROM users').all();
   ctx.body = { success: true, data: rows };
 });
 

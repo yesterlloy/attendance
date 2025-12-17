@@ -4,6 +4,7 @@ const { koaBody } = require('koa-body');
 const serve = require('koa-static');
 const path = require('path');
 const router = require('./routes');
+const { initializeDatabase } = require('./db');
 
 const app = new Koa();
 
@@ -17,6 +18,18 @@ app.use(mount('/uploads', serve(path.join(__dirname, 'uploads'))));
 app.use(router.routes()).use(router.allowedMethods());
 
 const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+
+// Initialize database and start server
+async function startServer() {
+  try {
+    await initializeDatabase();
+    app.listen(PORT, () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+startServer();

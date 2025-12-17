@@ -18,6 +18,7 @@ Page({
     wx.getLocation({
       type: 'wgs84',
       success(res) {
+        console.log('location res', res)
         that.setData({
           latitude: res.latitude,
           longitude: res.longitude,

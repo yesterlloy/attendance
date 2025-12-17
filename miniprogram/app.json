@@ -1,7 +1,13 @@
 {
+  "lazyCodeLoading": "requiredComponents",
   "pages": [
     "pages/index/index",
     "pages/records/index"
+  ],
+  "requiredPrivateInfos": [
+    "getLocation",
+    "startLocationUpdate",
+    "startLocationUpdateBackground"
   ],
   "window": {
     "backgroundTextStyle": "light",
