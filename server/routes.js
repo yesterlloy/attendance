@@ -74,6 +74,42 @@ router.get('/miniprogram/attendance', async (ctx) => {
 
 // --- Admin Interfaces ---
 
+// Admin Login
+router.post('/admin/login', async (ctx) => {
+  try {
+    const { username, password } = ctx.request.body;
+    
+    // 简单的用户名密码验证（仅用于演示）
+    // 在实际项目中，应该创建管理员表并使用哈希密码
+    if (username === 'admin' && password === 'admin123') {
+      // 生成简单的token（实际项目中应该使用JWT）
+      const token = 'admin-token-' + Date.now();
+      
+      ctx.body = {
+        success: true,
+        message: 'Login successful',
+        token: token,
+        user: {
+          id: 1,
+          username: 'admin',
+          role: 'admin',
+          name: '系统管理员'
+        }
+      };
+    } else {
+      ctx.status = 401;
+      ctx.body = {
+        success: false,
+        message: 'Invalid username or password'
+      };
+    }
+  } catch (err) {
+    console.error('Login error:', err);
+    ctx.status = 500;
+    ctx.body = { success: false, message: 'Server error' };
+  }
+});
+
 router.get('/admin/attendance', async (ctx) => {
   const stmt = db.prepare(`
     SELECT a.*, u.name as user_name 
