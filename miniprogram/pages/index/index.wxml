@@ -4,17 +4,17 @@
   </view>
 
   <view class="section">
-    <text class="label">Location:</text>
+    <text class="label">位置:</text>
     <view class="location-box">
       <text wx:if="{{address}}">{{address}}</text>
-      <text wx:else class="placeholder">Getting location...</text>
+      <text wx:else class="placeholder">正在获取位置...</text>
       <text class="coords" wx:if="{{latitude}}">({{latitude}}, {{longitude}})</text>
     </view>
-    <button size="mini" bindtap="getLocation">Refresh Location</button>
+    <button size="mini" bindtap="getLocation">刷新位置</button>
   </view>
 
   <view class="section">
-    <text class="label">Photo (Required):</text>
+    <text class="label">图片 (必填):</text>
     <view class="image-box" bindtap="chooseImage">
       <image wx:if="{{imagePath}}" src="{{imagePath}}" mode="aspectFill" class="preview-img"></image>
       <view wx:else class="placeholder-img">+</view>
