@@ -1,0 +1,27 @@
+<view class="container">
+  <view class="header">
+    <text class="title">Attendance Check-in</text>
+  </view>
+
+  <view class="section">
+    <text class="label">Location:</text>
+    <view class="location-box">
+      <text wx:if="{{address}}">{{address}}</text>
+      <text wx:else class="placeholder">Getting location...</text>
+      <text class="coords" wx:if="{{latitude}}">({{latitude}}, {{longitude}})</text>
+    </view>
+    <button size="mini" bindtap="getLocation">Refresh Location</button>
+  </view>
+
+  <view class="section">
+    <text class="label">Photo (Required):</text>
+    <view class="image-box" bindtap="chooseImage">
+      <image wx:if="{{imagePath}}" src="{{imagePath}}" mode="aspectFill" class="preview-img"></image>
+      <view wx:else class="placeholder-img">+</view>
+    </view>
+  </view>
+
+  <view class="footer">
+    <button type="primary" bindtap="submitAttendance" disabled="{{!imagePath || !latitude}}">Submit Attendance</button>
+  </view>
+</view>
