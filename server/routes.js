@@ -55,6 +55,23 @@ router.post('/miniprogram/attendance', upload.single('image'), async (ctx) => {
   }
 });
 
+router.get('/miniprogram/attendance', async (ctx) => {
+  const { userId } = ctx.query;
+  if (!userId) {
+    ctx.status = 400;
+    ctx.body = { success: false, message: 'userId required' };
+    return;
+  }
+  const stmt = db.prepare(`
+    SELECT id, user_id, timestamp, latitude, longitude, address, image_path, type
+    FROM attendance
+    WHERE user_id = ?
+    ORDER BY timestamp DESC
+  `);
+  const rows = stmt.all(userId);
+  ctx.body = { success: true, data: rows };
+});
+
 // --- Admin Interfaces ---
 
 router.get('/admin/attendance', async (ctx) => {

@@ -94,5 +94,9 @@ Page({
         });
       }
     });
+  },
+
+  goRecords: function () {
+    wx.navigateTo({ url: '/pages/records/index' })
   }
 })

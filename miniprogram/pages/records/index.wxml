@@ -1,0 +1,30 @@
+<view class="container">
+  <view class="header">
+    <text class="title">我的打卡记录</text>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading">加载中...</view>
+  <view wx:elif="{{list.length === 0}}" class="empty">暂无记录</view>
+
+  <block wx:for="{{list}}" wx:key="id">
+    <view class="card">
+      <view class="row">
+        <text class="label">时间</text>
+        <text class="value">{{item.timestamp}}</text>
+      </view>
+      <view class="row">
+        <text class="label">类型</text>
+        <text class="value">{{item.type}}</text>
+      </view>
+      <view class="row">
+        <text class="label">位置</text>
+        <text class="value">{{item.address || (item.latitude + ", " + item.longitude)}}</text>
+      </view>
+      <image wx:if="{{item.image_path}}" class="photo" src="{{serverBase + item.image_path}}" mode="aspectFill"></image>
+    </view>
+  </block>
+
+  <view class="footer">
+    <button size="mini" bindtap="refresh">刷新</button>
+  </view>
+</view>

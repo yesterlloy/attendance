@@ -23,5 +23,6 @@
 
   <view class="footer">
     <button type="primary" bindtap="submitAttendance" disabled="{{!imagePath || !latitude}}">Submit Attendance</button>
+    <button style="margin-top:12px" bindtap="goRecords">查看我的记录</button>
   </view>
 </view>
