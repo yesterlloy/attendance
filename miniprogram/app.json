@@ -17,7 +17,7 @@
   },
   "permission": {
     "scope.userLocation": {
-      "desc": "Your location is required to verify attendance."
+      "desc": "您的位置信息将用于打卡。"
     }
   },
   "sitemapLocation": "sitemap.json"
